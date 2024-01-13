@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     echo "Build started"
-                    sh 'mvn deploy package -Dmaven.test.skip=true' || error "Build failed"
+                    sh 'mvn clean deploy package -Dmaven.test.skip=true' || error "Build failed"
                     echo "Build completed"
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar-server-meportal') {
-                        sh "${env.scannerHome}/bin/sonar-scanner" || error "SonarQube analysis failed"
+                        sh "${scannerHome}/bin/sonar-scanner" || error "SonarQube analysis failed"
                     }
                 }
             }
@@ -33,8 +33,8 @@ pipeline {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
-                    def server = Artifactory.newServer url:"https://myportall1234.jfrog.io/artifactory" ,  credentialsId:"jfrog-cred"
-                    def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
+                    def server = Artifactory.newServer url: "https://myportall1234.jfrog.io/artifactory", credentialsId: "jfrog-cred"
+                    def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}"
                     def uploadSpec = """{
                         "files": [
                             {
@@ -42,14 +42,13 @@ pipeline {
                                 "target": "release-local-artifacts/{1}",
                                 "flat": "false",
                                 "props" : "${properties}",
-                                "exclusions": [ "*.sha1", "*.md5"]
+                                "exclusions": ["*.sha1", "*.md5"]
                             }
                         ]
                     }"""
                     def buildInfo = server.upload(uploadSpec)
-                    buildInfo.env.collect()
-                    server.publishBuildInfo(buildInfo) || 
-                    echo '------------ Artifact Publish Ended -----------'  
+                    server.publishBuildInfo(buildInfo)
+                    echo '------------ Artifact Publish Ended -----------'
                 }
             }
         }
@@ -58,7 +57,7 @@ pipeline {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
-                    app = docker.build("myportall1234.jfrog.io/meportal-docker-local/myapp:1.0") || error "Docker build failed"
+                    def app = docker.build("myportall1234.jfrog.io/meportal-docker-local/myapp:1.0")
                     echo '-------------- Docker Build Ended -------------'
                 }
             }
@@ -67,11 +66,19 @@ pipeline {
         stage("Docker Publish") {
             steps {
                 script {
-                    echo '---------- Docker Publish Started --------'  
+                    echo '---------- Docker Publish Started --------'
                     docker.withRegistry("https://myportall1234.jfrog.io", 'jfrog-cred') {
                         app.push() || error "Docker publish failed"
                         echo '------------ Docker Publish Ended ---------'
-                    }    
+                    }
+                }
+            }
+        }
+
+        stage("Deploy Stage") {
+            steps {
+                script {
+                    sh './deploy.sh'
                 }
             }
         }
