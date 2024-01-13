@@ -11,25 +11,24 @@ pipeline {
     stages {
         stage("Build Code") {
             steps {
-                echo "Build started"
-                sh 'mvn deploy package -Dmaven.test.skip=true'
-                echo "Build completed"
+                script {
+                    echo "Build started"
+                    sh 'mvn deploy package -Dmaven.test.skip=true' || error "Build failed"
+                    echo "Build completed"
+                }
             }
         }
 
-        /* Uncomment this block if you want to include SonarQube analysis
         stage('SonarQube analysis') {
             steps {
                 script {
                     withSonarQubeEnv('sonar-server-meportal') {
-                        sh "${env.scannerHome}/bin/sonar-scanner"
+                        sh "${env.scannerHome}/bin/sonar-scanner" || error "SonarQube analysis failed"
                     }
                 }
             }
         }
-        */
 
-        /* Uncomment this block if you want to include Artifact Publish
         stage("Artifact Publish") {
             steps {
                 script {
@@ -49,18 +48,17 @@ pipeline {
                     }"""
                     def buildInfo = server.upload(uploadSpec)
                     buildInfo.env.collect()
-                    server.publishBuildInfo(buildInfo)
+                    server.publishBuildInfo(buildInfo) || error "Artifact Publish failed"
                     echo '------------ Artifact Publish Ended -----------'  
                 }
             }
         }
-        */
 
         stage("Create Docker Image") {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
-                    app = docker.build("myportall1234.jfrog.io/meportal-docker-local/myapp:1.0")
+                    app = docker.build("myportall1234.jfrog.io/meportal-docker-local/myapp:1.0") || error "Docker build failed"
                     echo '-------------- Docker Build Ended -------------'
                 }
             }
@@ -70,12 +68,24 @@ pipeline {
             steps {
                 script {
                     echo '---------- Docker Publish Started --------'  
-                    docker.withRegistry("https://myportall1234.jfrog.io", 'jfrog-cred'){
-                        app.push()
+                    docker.withRegistry("https://myportall1234.jfrog.io", 'jfrog-cred') {
+                        app.push() || error "Docker publish failed"
                         echo '------------ Docker Publish Ended ---------'
                     }    
                 }
             }
         }
     }
+
+    post {
+        failure {
+            echo "One or more stages failed. Marking the build as unstable."
+            currentBuild.result = 'UNSTABLE'
+        }
+    }
+}
+
+def error(String errorMessage) {
+    currentBuild.result = 'FAILURE'
+    error errorMessage
 }
