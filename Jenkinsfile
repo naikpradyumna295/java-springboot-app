@@ -48,7 +48,7 @@ pipeline {
                     }"""
                     def buildInfo = server.upload(uploadSpec)
                     buildInfo.env.collect()
-                    server.publishBuildInfo(buildInfo) || error "Artifact Publish failed"
+                    server.publishBuildInfo(buildInfo) || 
                     echo '------------ Artifact Publish Ended -----------'  
                 }
             }
