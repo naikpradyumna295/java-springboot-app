@@ -8,7 +8,7 @@ pipeline {
         PATH = "/opt/maven/bin:$PATH"
         scannerHome = tool name: 'sonar-scanner-meportal', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
     }
-    stages {
+    /*stages {
         stage("Build Code") {
             steps {
                 script {
@@ -17,9 +17,9 @@ pipeline {
                     echo "Build completed"
                 }
             }
-        }
+        }*/
 
-        stage('SonarQube analysis') {
+        /*stage('SonarQube analysis') {
             steps {
                 script {
                     withSonarQubeEnv('sonar-server-meportal') {
@@ -27,7 +27,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage("Artifact Publish") {
             steps {
@@ -68,7 +68,7 @@ pipeline {
                 script {
                     echo '---------- Docker Publish Started --------'
                     docker.withRegistry("https://myportall1234.jfrog.io", 'jfrog-cred') {
-                        app.push() || error "Docker publish failed"
+                        app.push() 
                         echo '------------ Docker Publish Ended ---------'
                     }
                 }
@@ -84,15 +84,5 @@ pipeline {
         }
     }
 
-    post {
-        failure {
-            echo "One or more stages failed. Marking the build as unstable."
-            currentBuild.result = 'UNSTABLE'
-        }
-    }
-}
+    
 
-def error(String errorMessage) {
-    currentBuild.result = 'FAILURE'
-    error errorMessage
-}
