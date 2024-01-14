@@ -17,6 +17,8 @@ pipeline {
                 echo "----------- build completed ----------"
             }
         }
+    }
+}
         /* 
         stage("Test Stage"){
             steps{
@@ -50,7 +52,7 @@ pipeline {
             }
         }
         */
-        stage("Artifact Publish") {
+        /*stage("Artifact Publish") {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
