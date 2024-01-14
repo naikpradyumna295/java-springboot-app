@@ -13,7 +13,7 @@ pipeline {
         stage("Build Stage"){
             steps {
                 echo "----------- build started ----------"
-                sh 'mvn clean deploy -Dmaven.test.skip=true'
+                sh 'mvn deploy package -Dmaven.test.skip=true'
                 echo "----------- build completed ----------"
             }
         }
@@ -79,7 +79,7 @@ pipeline {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
-                    app = docker.build("meportal.jfrog.io/meportal-docker-local/myapp:1.0.1")
+                    app = docker.build("meportal.jfrog.io/meportal-docker-local/myapp:1.0")
                     echo '-------------- Docker Build Ended -------------'
                 }
             }
