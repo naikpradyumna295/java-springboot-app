@@ -1,14 +1,14 @@
 pipeline {
-       agent {
+    agent {
         node {
             label 'jenkins-slave-node'
         }
     }
- 
     
     environment {
         PATH = "/opt/apache-maven-3.9.6/bin:$PATH"
     }
+    
     stages {
         stage("Build Stage"){
             steps {
@@ -17,8 +17,6 @@ pipeline {
                 echo "----------- build completed ----------"
             }
         }
-    }
-}
         /* 
         stage("Test Stage"){
             steps{
@@ -90,8 +88,8 @@ pipeline {
         stage (" Docker Publish "){
             steps {
                 script {
-                        echo '---------- Docker Publish Started --------'  
-                        docker.withRegistry("https://meportal.jfrog.io", 'jfrog-cred'){
+                    echo '---------- Docker Publish Started --------'  
+                    docker.withRegistry("https://meportal.jfrog.io", 'jfrog-cred'){
                         app.push()
                         echo '------------ Docker Publish Ended ---------'  
                     }    
@@ -102,10 +100,9 @@ pipeline {
         stage ("Deploy Stage"){
             steps {
                 script {
-                        sh './deploy.sh'
-                    }    
+                    sh './deploy.sh'
+                }    
             }
         }
-
     }
 }
