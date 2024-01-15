@@ -4,44 +4,45 @@ pipeline {
             label 'jenkins-slave-node'
         }
     }
-    
+
     environment {
         PATH = "/opt/apache-maven-3.9.6/bin:$PATH"
     }
-    
+
     stages {
-        stage("Build Stage"){
+        stage("Build Stage") {
             steps {
                 echo "----------- build started ----------"
                 sh 'mvn deploy package -Dmaven.test.skip=true'
                 echo "----------- build completed ----------"
             }
         }
+
         /* 
-        stage("Test Stage"){
-            steps{
+        stage("Test Stage") {
+            steps {
                 echo "----------- unit test started ----------"
                 sh 'mvn surefire-report:report'
                 echo "----------- unit test Completed ----------"
             }
         }
-        
+
         stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner-meportal'
             }
-            steps{
+            steps {
                 withSonarQubeEnv('sonar-server-meportal') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
         }
 
-        stage("Quality Gate"){
+        stage("Quality Gate") {
             steps {
                 script {
-                    timeout(time: 1, unit: 'HOURS') { 
-                        def qg = waitForQualityGate() 
+                    timeout(time: 1, unit: 'HOURS') {
+                        def qg = waitForQualityGate()
                         if (qg.status != 'OK') {
                             error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
@@ -50,7 +51,8 @@ pipeline {
             }
         }
         */
-        /*stage("Artifact Publish") {
+
+        /* stage("Artifact Publish") {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
@@ -85,7 +87,7 @@ pipeline {
             }
         }
 
-        stage (" Docker Publish "){
+        stage (" Docker Publish ") {
             steps {
                 script {
                     echo '---------- Docker Publish Started --------'  
@@ -97,7 +99,7 @@ pipeline {
             }
         }
 
-        stage ("Deploy Stage"){
+        stage ("Deploy Stage") {
             steps {
                 script {
                     sh './deploy.sh'
