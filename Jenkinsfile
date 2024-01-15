@@ -52,7 +52,7 @@ pipeline {
         }
         */
 
-        /* stage("Artifact Publish") {
+         stage("Artifact Publish") {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
