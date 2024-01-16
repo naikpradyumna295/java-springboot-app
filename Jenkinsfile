@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        /*stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner-meportal'
             }
@@ -48,9 +48,9 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 
-        stage("Artifact Publish") {
+        /*stage("Artifact Publish") {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
@@ -79,7 +79,7 @@ pipeline {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
-                    app = docker.build("myportall1234.jfrog.io/meportal-docker-local/myapp:1.0")
+                    app = docker.build("myportall1234.jfrog.io/meportal-docker-local/myapp:1.0.1")
                     echo '-------------- Docker Build Ended -------------'
                 }
             }
@@ -91,6 +91,6 @@ pipeline {
                     sh './deploy.sh'
                 }    
             }
-        }
+        }*/
     }
 }
