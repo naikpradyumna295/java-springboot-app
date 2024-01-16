@@ -13,7 +13,7 @@ pipeline {
         stage("Build Stage") {
             steps {
                 echo "----------- build started ----------"
-                sh 'mvn deploy package -Dmaven.test.skip=true'
+                sh 'mvn clean deploy -Dmaven.test.skip=true'
                 echo "----------- build completed ----------"
             }
         }
@@ -71,8 +71,6 @@ pipeline {
                     buildInfo.env.collect()
                     server.publishBuildInfo(buildInfo)
                     echo '------------ Artifact Publish Ended -----------'  
-
-                    }
                 }
             }
         }
