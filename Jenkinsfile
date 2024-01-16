@@ -75,7 +75,7 @@ pipeline {
             }
         }
 
-        /*stage("Create Docker Image") {
+        stage("Create Docker Image") {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
@@ -83,6 +83,14 @@ pipeline {
                     echo '-------------- Docker Build Ended -------------'
                 }
             }
-        }*/
+        }
+
+        stage("Deploy Stage") {
+            steps {
+                script {
+                    sh './deploy.sh'
+                }    
+            }
+        }
     }
 }
