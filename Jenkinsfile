@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
-                    def server = Artifactory.newServer url:"https://meportal1234.jfrog.io//artifactory" ,  credentialsId:"Jfrog-cred"
+                    def server = Artifactory.newServer url:"https://meportal1234.jfrog.io//artifactory" ,  credentialsId:"Jfrog-cred1"
                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
                     def uploadSpec = """{
                         "files": [
@@ -82,3 +82,7 @@ pipeline {
                     app = docker.build("myportall1234.jfrog.io/meportal-docker-local/myapp:1.0")
                     echo '-------------- Docker Build Ended -------------'
                 }
+            }
+        }*/
+    }
+}
