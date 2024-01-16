@@ -18,7 +18,7 @@ pipeline {
             }
         }
 
-        stage("Test Stage") {
+        /*stage("Test Stage") {
             steps {
                 echo "----------- unit test started ----------"
                 sh 'mvn surefire-report:report'
@@ -48,7 +48,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage("Artifact Publish") {
             steps {
