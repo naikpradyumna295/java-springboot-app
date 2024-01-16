@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
-                    def server = Artifactory.newServer url:"https://myportall1234.jfrog.io//artifactory" ,  credentialsId:"Jfrog-cred"
+                    def server = Artifactory.newServer url:"https://meportal1234.jfrog.io//artifactory" ,  credentialsId:"Jfrog-cred"
                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
                     def uploadSpec = """{
                         "files": [
