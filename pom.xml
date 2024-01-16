@@ -91,7 +91,7 @@
 
 	<distributionManagement>
 		<repository>
-			<id>https://myportall1234.jfrog.io/</id>
+			<id>dev</id>
 			<url>file://staging</url>
 		</repository>
 	</distributionManagement>
