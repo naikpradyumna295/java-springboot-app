@@ -50,7 +50,7 @@ pipeline {
                 }
             }
         }
-        */
+        
 
         stage("Artifact Publish") {
             steps {
@@ -77,7 +77,7 @@ pipeline {
             }
         }
 
-       /* stage("Create Docker Image") {
+       stage("Create Docker Image") {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
