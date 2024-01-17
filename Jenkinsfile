@@ -87,6 +87,17 @@ pipeline {
                 }
             }
         }
+        stage (" Docker Publish ") {
+            steps {
+                script {
+                    echo '---------- Docker Publish Started --------'
+                    docker.withRegistry("https://myportall1234.jfrog.io", 'jfrog-cred') {
+                        app.push()
+                        echo '------------ Docker Publish Ended ---------'
+                    }
+                }
+            }
+        }
 
         stage("Deploy Stage") {
             steps {
