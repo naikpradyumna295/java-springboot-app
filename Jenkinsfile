@@ -66,7 +66,7 @@ pipeline {
                                 "target": "release-local-artifacts/{1}",
                                 "flat": "false",
                                 "props" : "${properties}",
-                                "exclusions": [ ".sha1", ".md5"]
+                                "exclusions": [ "*.sha1", "*.md5"]
                             }
                         ]
                     }"""
