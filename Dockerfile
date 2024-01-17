@@ -7,6 +7,6 @@ RUN apt-get update -q && \
 
 WORKDIR /opt
 
-COPY staging/com/meportal/springboot-app/1.0/springboot-app-1.0.war welcomeapp.war
+COPY staging/com/meportal/springboot-app/1.0.1/springboot-app-1.0.1.war welcomeapp.war
 
 CMD ["java", "-jar", "welcomeapp.war"]
