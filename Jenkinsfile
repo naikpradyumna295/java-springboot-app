@@ -75,7 +75,7 @@ pipeline {
             }
         }
 
-        stage("Create Docker Image") {
+       /* stage("Create Docker Image") {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
@@ -91,7 +91,7 @@ pipeline {
                     sh './deploy.sh'
                 }    
             }
-        }*/
+        }
     }
 
     stage(" Deploy ") {
@@ -101,6 +101,6 @@ pipeline {
                 sh 'helm install meportal /home/ubuntu/meportal-0.1.0.tgz'
                 echo '<--------------- Helm deploy Ends --------------->'
             }
-        }
+        }*/
     }
 }
