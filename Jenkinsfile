@@ -54,13 +54,13 @@ pipeline {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
-                    def server = Artifactory.newServer url:"https://meportal1234.jfrog.io//artifactory" ,  credentialsId:"Jfrog-cred1"
+                    def server = Artifactory.newServer url:"https://meportal1234.jfrog.io//artifactory" ,  credentialsId:"Jfrog-cred"
                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
                     def uploadSpec = """{
                         "files": [
                             {
                                 "pattern": "staging/(*)",
-                                "target": "release-local-artifacts-1/{1}",
+                                "target": "release-local-artifacts/{1}",
                                 "flat": "false",
                                 "props" : "${properties}",
                                 "exclusions": [ ".sha1", ".md5"]
@@ -92,5 +92,15 @@ pipeline {
                 }    
             }
         }*/
+    }
+
+    stage(" Deploy ") {
+        steps {
+            script {
+                echo '<--------------- Helm Deploy Started --------------->'
+                sh 'helm install meportal /home/ubuntu/meportal-0.1.0.tgz'
+                echo '<--------------- Helm deploy Ends --------------->'
+            }
+        }
     }
 }
