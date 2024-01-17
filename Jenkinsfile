@@ -26,7 +26,8 @@ pipeline {
             }
         }
 
-        /*stage('SonarQube Analysis') {
+        /*
+        stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner-meportal'
             }
@@ -48,9 +49,9 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 
-        /*stage("Artifact Publish") {
+        stage("Artifact Publish") {
             steps {
                 script {
                     echo '-------------- Artifact Publish Started -------------'
@@ -75,7 +76,7 @@ pipeline {
             }
         }
 
-       /* stage("Create Docker Image") {
+        stage("Create Docker Image") {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
@@ -101,6 +102,7 @@ pipeline {
                 sh 'helm install meportal /home/ubuntu/meportal-0.1.0.tgz'
                 echo '<--------------- Helm deploy Ends --------------->'
             }
-        }*/
+        }
+        */
     }
 }
