@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        /*stage('SonarQube Analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner-meportal'
             }
@@ -48,9 +48,9 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
-        /*stage("Artifact Publish") {
+        stage("Artifact Publish") {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
