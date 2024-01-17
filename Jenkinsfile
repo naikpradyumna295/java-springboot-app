@@ -13,7 +13,7 @@ pipeline {
         stage("Build Stage") {
             steps {
                 echo "----------- build started ----------"
-                sh 'mvn clean deploy -Dmaven.test.skip=true'
+                sh 'mvn clean package -Dmaven.test.skip=true'
                 echo "----------- build completed ----------"
             }
         }
@@ -77,7 +77,7 @@ pipeline {
             }
         }
 
-        stage("Create Docker Image") {
+       /* stage("Create Docker Image") {
             steps {
                 script {
                     echo '-------------- Docker Build Started -------------'
@@ -94,6 +94,7 @@ pipeline {
                 }    
             }
         }
+        */
     
 
     
